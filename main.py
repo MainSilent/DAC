@@ -27,7 +27,6 @@ from colorama import Fore, Style, init
 from bs4 import BeautifulSoup as soup
 from sys import stdout
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from api import GmailnatorRead, GmailnatorGet, dfilter_email, pfilter_email, find_email_type
 
 init(convert=True)
 
@@ -253,10 +252,8 @@ def worker(count):
           
 # -------------------------- Main -----------------------------
 
-from user import User, change_token
 from database import DataBase, G_DataBase
 from channel import fetch
-from guild import guild
 
 print(f"{DataBase.nCount()}/{DataBase.Count()} Users\n")
 print("1- Get guilds")
