@@ -3,32 +3,17 @@ uc.install()
 
 import os
 import time 
-import requests
 import random
 import string
-import sys
-import json
-import threading
-import datetime
-import re
-from multiprocessing import Process, Manager
-from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC  
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from random_username.generate import generate_username
-from colorama import Fore, Style, init 
-from bs4 import BeautifulSoup as soup
-from sys import stdout
+from colorama import Fore, Style
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
-init(convert=True)
 
 def password_gen(length=8, chars= string.ascii_letters + string.digits + string.punctuation):
         return ''.join(random.choice(chars) for _ in range(length))  
@@ -105,9 +90,7 @@ class DiscordGen:
     def close_driver(self):
         self.driver.close()
 
-def worker(count):
-    print("\033[33m"+"\nCreated: "+str(count.value)+"\n\033[0m")
-
+def worker(users):
     username = generate_username(1)[0]
     new_email = username + "@gmail.com"
     password = password_gen()    

@@ -3,30 +3,20 @@ import json
 import websocket
 from time import sleep
 from multiprocessing import Process
-from database import DataBase, G_DataBase
+from database import DataBase
 from dotenv import load_dotenv; load_dotenv()
 
 count = 0
 online_count = 0
-guild_id = ''
-channel_id = ''
 timeout = None
 token = os.getenv("token")
+guild_id = os.getenv("guild_id")
+channel_id = os.getenv("channel_id")
 
 def fetch():
-    for idx, guild in enumerate(G_DataBase.GetFromDB()):
-        global guild_id 
-        guild_id  = guild[1]
-        global channel_id 
-        channel_id = guild[2]
-
-        ws = websocket.WebSocketApp('wss://gateway.discord.gg/?encoding=json&v=8',
-                                    on_open=on_open, on_message=on_message)
-        ws.run_forever()
-
-        if idx != len(G_DataBase.GetFromDB()) - 1:
-            print("Getting ready for the next guild...")
-            sleep(4)
+    ws = websocket.WebSocketApp('wss://gateway.discord.gg/?encoding=json&v=8',
+                                on_open=on_open, on_message=on_message)
+    ws.run_forever()
 
 def stop_chunk(ws):
     ws.send("close")
