@@ -58,31 +58,3 @@ class DataBase:
     def truncate(self):
         with conn:
             c.execute("DELETE FROM users")
-
-
-
-class G_DataBase:
-    def __init__(self,g_id,ch_id):
-        self.g_id = g_id
-        self.ch_id = ch_id
-       
-    @classmethod
-    def GetFromDB(self):
-        with conn:
-            c.execute("SELECT * FROM guilds")
-            return c.fetchall()
-
-    def GoToDB(self):
-        with conn:
-            c.execute(f"INSERT INTO 'main'.'guilds'('ID','guild_ID','channel_ID') VALUES (NULL,'{self.g_id}','{self.ch_id}')")
-    
-    @classmethod
-    def Count(self):
-        with conn:
-            c.execute("SELECT * FROM guilds")
-            return len(c.fetchall())
-
-    @classmethod
-    def truncate(self):
-        with conn:
-            c.execute("DELETE FROM guilds")
