@@ -5,6 +5,7 @@ import os
 import time 
 import random
 import string
+from database import DataBase
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -102,17 +103,16 @@ class DiscordGen:
 
         return True
 
-    def send(self, users):
-        if not int(user[3]):
-            DataBase.SendUpdate(user[2])
-            print(f"Sending to {user[1]} "+"\033[32m"+"Success"+"\033[0m")
-
-            #print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m")
+    def send(self):
+        self.driver.execute_script('document.querySelector("a .joinCTA-1s7TZx").click()')
+        #DataBase.SendUpdate(user[2])
+        #print(f"Sending to {user[1]} "+"\033[32m"+"Success"+"\033[0m")
+        #print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m")
 
     def close_driver(self):
         self.driver.close()
 
-def worker(users):
+def worker():
     username = generate_username(1)[0]
     new_email = username + "@gmail.com"
     password = password_gen()    
@@ -123,18 +123,18 @@ def worker(users):
         if not d.register():
             print("\033[31m"+"Registration failed, system detected!"+"\033[0m")
             print("\033[33m"+"Trying again..."+"\033[0m")
-            worker(users)  
+            worker()  
 
         print("\033[32m"+"Account created successfully"+"\033[0m")
 
         if not d.join():
             print("\033[31m"+"Joining the guild failed!"+"\033[0m")
             print("\033[33m"+"Trying again..."+"\033[0m")
-            worker(users)  
+            worker()  
 
         print("\033[32m"+"Joined the guild successfully"+"\033[0m")
         
-        d.send(users)
+        d.send()
         
     except Exception as e:
         print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))

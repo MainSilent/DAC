@@ -27,6 +27,6 @@ six==1.14.0
 undetected-chromedriver==2.2.1
 urllib3==1.25.8
 webencodings==0.5.1
-websocket==0.2.1
+websocket-client==0.58.0
 zope.event==4.5.0
 zope.interface==5.3.0
