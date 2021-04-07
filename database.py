@@ -29,7 +29,7 @@ class DataBase:
     @classmethod
     def Status(self,uID):
         with conn:
-            c.execute(f"SELECT uID FROM Users WHERE uID = {uID}")
+            c.execute(f'SELECT uID FROM Users WHERE uID = "{uID}"')
             if len(c.fetchall()) == 0:
                 return False
             else:

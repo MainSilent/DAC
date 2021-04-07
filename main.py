@@ -4,7 +4,8 @@ from multiprocessing import Process
 from database import DataBase
 from client import worker
 
-print("\n1- Send message to users")
+print(f"{DataBase.Count()} Users sent\n")
+print("1- Send message to users")
 print("2- Truncate users")
 
 choice = int(input("Choose by number: "))
