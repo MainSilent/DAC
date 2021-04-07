@@ -1,6 +1,7 @@
+import time 
 from multiprocessing import Process
 from database import DataBase
-from selenium import worker
+from client import worker
 from channel import fetch
 
 # print(f"{DataBase.nCount()}/{DataBase.Count()} Users\n")
