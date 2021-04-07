@@ -1,3 +1,4 @@
+import os
 import time 
 from multiprocessing import Process
 from database import DataBase
@@ -19,11 +20,16 @@ elif choice == 2:
     for users in [lst[i:i + 4] for i in range(0, len(lst), 4)]:
 	    p = Process(target=worker, args=(users,))
 	    p.start()
-	    time.sleep(110)
+
+	    while True:
+	    	if not p.is_alive():
+	    		break
+	    	time.sleep(0.5)
+
 	    p.terminate()
 	    os.system("pkill chromium; pkill chrome")
 	    print("Waiting for next worker...")
-	    time.sleep(110)
+	    time.sleep(80)
 elif choice == 3:
     print("Reseting...")
     DataBase.Reset()

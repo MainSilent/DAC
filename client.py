@@ -14,6 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from random_username.generate import generate_username
 from colorama import Fore, Style
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from dotenv import load_dotenv; load_dotenv()
 
 def password_gen(length=8, chars= string.ascii_letters + string.digits + string.punctuation):
         return ''.join(random.choice(chars) for _ in range(length))  
@@ -75,27 +76,38 @@ class DiscordGen:
             actions.send_keys(str(random.choice(random_year))) #Year
             actions.perform()
 
-            #Submit form
-            try: 
-                self.driver.find_element_by_class_name('inputDefault-3JxKJ2').click() # Agree to terms and conditions
-            except:
-                print(f"{Fore.LIGHTMAGENTA_EX}[*]{Style.RESET_ALL} Could not find button. Ignoring..")
-                pass
-
             self.driver.find_element_by_class_name('button-3k0cO7').click() # Submit button        
             print(f'{Fore.LIGHTMAGENTA_EX}[*]{Style.RESET_ALL} Submit form')
             
             body = self.driver.find_element_by_xpath("/html/body")
 
             while True:
-                if "https://discord.com/channels/@me" == self.driver.current_url:
-                    time.sleep(15)
+                if "https://discord.com/channels/@me" == self.driver.current_url and body.text and "DID YOU KNOW" not in body.text:
                     if "Join a server" in body.text:
-                        self.driver.find_element_by_class_name('close-hZ94c6').click()
                         return True
                     else:
                         self.close_driver()
                         return False
+
+                time.sleep(0.5)
+
+    def join(self):
+        print("Joining the guild...")
+        self.driver.execute_script('document.querySelector("a .joinCTA-1s7TZx").click()')
+        self.driver.find_element_by_class_name("input-cIJ7To").send_keys(os.getenv("invite"))
+        self.driver.execute_script('document.querySelector(".justifyBetween-2tTqYu .button-38aScr").click()')
+        
+        if "https://discord.com/channels/@me" != self.driver.current_url:
+            return False
+
+        return True
+
+    def send(self, users):
+        if not int(user[3]):
+            DataBase.SendUpdate(user[2])
+            print(f"Sending to {user[1]} "+"\033[32m"+"Success"+"\033[0m")
+
+            #print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m")
 
     def close_driver(self):
         self.driver.close()
@@ -114,14 +126,15 @@ def worker(users):
             worker(users)  
 
         print("\033[32m"+"Account created successfully"+"\033[0m")
+
+        if not d.join():
+            print("\033[31m"+"Joining the guild failed!"+"\033[0m")
+            print("\033[33m"+"Trying again..."+"\033[0m")
+            worker(users)  
+
+        print("\033[32m"+"Joined the guild successfully"+"\033[0m")
+        
+        d.send(users)
         
     except Exception as e:
         print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
-
-    time.sleep(55)
-    # send the messages
-    if not int(user[3]) and message.create() and message.send():
-        DataBase.SendUpdate(user[2])
-        print(f"Sending to {user[1]} "+"\033[32m"+"Success"+"\033[0m")
-    elif not int(user[3]):
-        print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m")
