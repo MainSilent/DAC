@@ -14,6 +14,7 @@ guild_id = os.getenv("guild_id")
 channel_id = os.getenv("channel_id")
 
 def fetch():
+    DataBase.truncate()
     ws = websocket.WebSocketApp('wss://gateway.discord.gg/?encoding=json&v=8',
                                 on_open=on_open, on_message=on_message)
     ws.run_forever()
@@ -82,6 +83,9 @@ def on_message(ws, message):
             add(member['user'])
 
 def add(user):
+    if not user['avatar']:
+        return
+        
     id = user['id']
     if 'bot' not in user.keys() and not DataBase.Status(id):
         username = user['username']

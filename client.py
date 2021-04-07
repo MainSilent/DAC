@@ -104,3 +104,8 @@ def worker(users):
 
     time.sleep(55)
     # send the messages
+    if not int(user[3]) and message.create() and message.send():
+        DataBase.SendUpdate(user[2])
+        print(f"Sending to {user[1]} "+"\033[32m"+"Success"+"\033[0m")
+    elif not int(user[3]):
+        print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m")
