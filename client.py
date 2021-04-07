@@ -85,7 +85,17 @@ class DiscordGen:
             self.driver.find_element_by_class_name('button-3k0cO7').click() # Submit button        
             print(f'{Fore.LIGHTMAGENTA_EX}[*]{Style.RESET_ALL} Submit form')
             
-            return True
+            body = self.driver.find_element_by_xpath("/html/body")
+
+            while True:
+                if "https://discord.com/channels/@me" == self.driver.current_url:
+                    time.sleep(15)
+                    if "Join a server" in body.text:
+                        self.driver.find_element_by_class_name('close-hZ94c6').click()
+                        return True
+                    else:
+                        self.close_driver()
+                        return False
 
     def close_driver(self):
         self.driver.close()
@@ -98,7 +108,13 @@ def worker(users):
     d = DiscordGen(new_email, username, password)
 
     try:
-        d.register()             
+        if not d.register():
+            print("\033[31m"+"Registration failed, system detected!"+"\033[0m")
+            print("\033[33m"+"Trying again..."+"\033[0m")
+            worker(users)  
+
+        print("\033[32m"+"Account created successfully"+"\033[0m")
+        
     except Exception as e:
         print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
 
