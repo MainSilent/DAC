@@ -48,6 +48,12 @@ class DataBase:
             return len(c.fetchall())
 
     @classmethod
+    def sentCount(self):
+        with conn:
+            c.execute("SELECT * FROM Users WHERE send = 2")
+            return len(c.fetchall())
+
+    @classmethod
     def Reset(self):
         value = 0
         with conn:
