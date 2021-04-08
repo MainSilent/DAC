@@ -92,6 +92,8 @@ class DiscordGen:
             while True:
                 if "https://discord.com/channels/@me" == self.driver.current_url and body.text and "DID YOU KNOW" not in body.text:
                     if "Join a server" in body.text:
+                        newData = DataBase('', self.username, 0)
+                        newData.GoToDB()
                         return True
                     else:
                         self.close_driver()
@@ -135,11 +137,12 @@ class DiscordGen:
                         if name in body.text and os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
                             break
                         time.sleep(0.4)
+                    time.sleep(2)
 
                     if "Clyde" in body.text and "Your message could not be delivered." in body.text:
                         print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
                     elif "Something's Going on Here" in body.text:
-                        print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", unknown reason")
+                        print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", system detected!")
                         self.close_driver()
                         return False
                     else:
@@ -150,6 +153,20 @@ class DiscordGen:
                     newData.GoToDB()
                     self.driver.back()
                     self.send()
+            else:
+                self.driver.find_element_by_class_name("header-2V-4Sw").click()
+                while True:
+                    if "guild-header-popout-leave" in self.driver.execute_script("return document.body.outerHTML"):
+                        break
+                    time.sleep(0.4)
+                self.driver.find_element_by_id("guild-header-popout-leave").click()
+                while True:
+                    if "colorRed-1TFJan" in self.driver.execute_script("return document.body.outerHTML"):
+                        break
+                    time.sleep(0.4)
+                self.driver.find_element_by_class_name("colorRed-1TFJan").click()
+                time.sleep(4)
+                break
 
         return True
 
@@ -183,5 +200,5 @@ def worker():
             return
         
     except Exception as e:
-        print("\033[31m"+"system detected!"+"\033[0m")
-        #print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
+        ...
+        print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))

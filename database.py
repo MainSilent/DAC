@@ -57,4 +57,4 @@ class DataBase:
     @classmethod
     def truncate(self):
         with conn:
-            c.execute("DELETE FROM users")
+            c.execute("DELETE FROM users WHERE send = 1")
