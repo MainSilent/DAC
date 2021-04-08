@@ -132,21 +132,22 @@ class DiscordGen:
                     body = self.driver.find_element_by_xpath("/html/body")
 
                     while True:
-                        if os.getenv("msg") in body.text:
+                        if os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
                             break
-                        elif "Something's Going on Here" in body.text:
-                            return False
-
                         time.sleep(0.4)
 
                     if "Clyde" in body.text and "Your message could not be delivered." in body.text:
-                        print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
+                        print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
+                    elif "Something's Going on Here" in body.text:
+                        print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", unknown reason")
+                        self.close_driver()
+                        return False
                     else:
-                        newData = DataBase('', name, 1)
-                        newData.GoToDB()
                         print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
                         total_sent += 1
 
+                    newData = DataBase('', name, 1)
+                    newData.GoToDB()
                     self.driver.back()
                     self.send()
 
@@ -170,13 +171,16 @@ def worker():
             print("\033[32m"+"Account created successfully"+"\033[0m")
         else:
             print("\033[31m"+"Registration failed, system detected!"+"\033[0m")
+            return
 
         if d.join():
             print("\033[32m"+"Joined the guild successfully"+"\033[0m")
         else:
             print("\033[31m"+"Joining the guild failed!"+"\033[0m")
+            return
         
-        d.send()
+        if not d.send():
+            return
         
     except Exception as e:
         print("\033[31m"+"system detected!"+"\033[0m")
