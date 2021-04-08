@@ -64,3 +64,13 @@ class DataBase:
     def truncate(self):
         with conn:
             c.execute("DELETE FROM users WHERE NOT send = 0")
+
+class Proxy:
+    def add(self, address):
+        ...
+
+    def check(self, address):
+        ...
+
+    def get(self):
+        ...

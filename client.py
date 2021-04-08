@@ -6,7 +6,7 @@ import time
 import json 
 import random
 import string
-from database import DataBase
+from database import DataBase, Proxy
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -27,7 +27,8 @@ class DiscordGen:
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        
+        options.add_argument('--proxy-server=%s' % Proxy.get())
+
         caps = DesiredCapabilities.CHROME
         caps['goog:loggingPrefs'] = {'performance': 'ALL'}
 
