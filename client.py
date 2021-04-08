@@ -132,7 +132,7 @@ class DiscordGen:
                     body = self.driver.find_element_by_xpath("/html/body")
 
                     while True:
-                        if os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
+                        if name in body.text and os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
                             break
                         time.sleep(0.4)
 
