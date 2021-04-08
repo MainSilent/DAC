@@ -2,7 +2,8 @@ import undetected_chromedriver as uc
 uc.install()
 
 import os
-import time 
+import time
+import json 
 import random
 import string
 from database import DataBase
@@ -37,6 +38,14 @@ class DiscordGen:
         self.password = password
 
     def register(self):
+        self.driver.get('https://discord.com')
+
+        with open("h_captcha.json", "r") as f:
+            h_captcha = json.load(f)
+
+        for cookie in h_captcha:
+            self.driver.add_cookie(cookie)
+
         self.driver.get('https://discord.com/register')
 
         print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver wait")
