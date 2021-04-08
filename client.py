@@ -153,19 +153,18 @@ class DiscordGen:
                     newData.GoToDB()
                     self.driver.back()
                     self.send()
+
+            # Leave the guild
             else:
                 self.driver.find_element_by_class_name("header-2V-4Sw").click()
+                time.sleep(1)
+                self.driver.find_element_by_class_name("colorDanger-2qLCe1").click()
+
                 while True:
-                    if "guild-header-popout-leave" in self.driver.execute_script("return document.body.outerHTML"):
-                        break
-                    time.sleep(0.4)
-                self.driver.find_element_by_id("guild-header-popout-leave").click()
-                while True:
-                    if "colorRed-1TFJan" in self.driver.execute_script("return document.body.outerHTML"):
+                    if len(self.driver.find_elements_by_class_name("colorRed-1TFJan")):
                         break
                     time.sleep(0.4)
                 self.driver.find_element_by_class_name("colorRed-1TFJan").click()
-                time.sleep(4)
                 break
 
         return True
@@ -201,4 +200,4 @@ def worker():
         
     except Exception as e:
         ...
-        print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
+        #print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
