@@ -132,21 +132,21 @@ class DiscordGen:
                     body = self.driver.find_element_by_xpath("/html/body")
 
                     while True:
-                        if os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
+                        if os.getenv("msg") in body.text:
                             break
+                        elif "Something's Going on Here" in body.text:
+                            return False
+
                         time.sleep(0.4)
 
                     if "Clyde" in body.text and "Your message could not be delivered." in body.text:
                         print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
-                    elif "Something's Going on Here" in body.text:
-                        print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", unknown reason")
-                        self.close_driver()
-                        return False
+                    else:
+                        newData = DataBase('', name, 1)
+                        newData.GoToDB()
+                        print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
+                        total_sent += 1
 
-                    newData = DataBase('', name, 1)
-                    newData.GoToDB()
-                    print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
-                    total_sent += 1
                     self.driver.back()
                     self.send()
 
@@ -166,22 +166,18 @@ def worker():
     d = DiscordGen(new_email, username, password)
 
     try:
-        if not d.register():
+        if d.register():
+            print("\033[32m"+"Account created successfully"+"\033[0m")
+        else:
             print("\033[31m"+"Registration failed, system detected!"+"\033[0m")
-            print("\033[33m"+"Trying again..."+"\033[0m")
-            worker()  
 
-        print("\033[32m"+"Account created successfully"+"\033[0m")
-
-        if not d.join():
+        if d.join():
+            print("\033[32m"+"Joined the guild successfully"+"\033[0m")
+        else:
             print("\033[31m"+"Joining the guild failed!"+"\033[0m")
-            print("\033[33m"+"Trying again..."+"\033[0m")
-            worker()  
-
-        print("\033[32m"+"Joined the guild successfully"+"\033[0m")
         
-        if not d.send():
-            worker()
+        d.send()
         
     except Exception as e:
-        print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
+        print("\033[31m"+"system detected!"+"\033[0m")
+        #print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
