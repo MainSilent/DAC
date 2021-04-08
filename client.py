@@ -38,7 +38,7 @@ class DiscordGen:
         self.password = password
 
     def register(self):
-        self.driver.get('https://discord.com')
+        self.driver.get('http://www.example.com')
 
         with open("h_captcha.json", "r") as f:
             h_captcha = json.load(f)
@@ -105,6 +105,15 @@ class DiscordGen:
                     else:
                         self.close_driver()
                         return False
+                elif "checkbox" in body.get_attribute('innerHTML'):
+                    self.driver.switch_to.frame(0)
+                    while True:
+                        try:
+                            if not self.driver.find_element_by_id("checkbox").get_attribute("style"):
+                                self.driver.find_element_by_id("checkbox").send_keys(Keys.ENTER)
+                        except:
+                            self.driver.switch_to.parent_frame()
+                            break
 
                 time.sleep(0.4)
 
