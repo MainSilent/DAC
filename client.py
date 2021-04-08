@@ -97,7 +97,7 @@ class DiscordGen:
                         self.close_driver()
                         return False
 
-                time.sleep(0.5)
+                time.sleep(0.4)
 
     def join(self):
         print("Joining the guild...")
@@ -115,43 +115,50 @@ class DiscordGen:
         global total_sent
 
         while True:
-            if len(self.driver.find_elements_by_class_name('member-3-YXUe')):
-                break
-            time.sleep(0.4)
-        time.sleep(4)
+            try:
+                if self.driver.find_element_by_class_name('member-3-YXUe').text:
+                    break
+            except:
+                time.sleep(0.4)
 
         for user in self.driver.find_elements_by_class_name('member-3-YXUe'):
-            name = user.find_element_by_class_name('name-uJV0GL').text
-            if not DataBase.Status(name) and name != self.username:
-                user.click()
-                self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(os.getenv("msg"))
-                self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(Keys.ENTER)
-                
-                body = self.driver.find_element_by_xpath("/html/body")
+            if total_sent < 4:
+                name = user.find_element_by_class_name('name-uJV0GL').text
+                if not DataBase.Status(name) and name != self.username:
+                    user.click()
+                    self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(os.getenv("msg"))
+                    self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(Keys.ENTER)
+                    
+                    body = self.driver.find_element_by_xpath("/html/body")
 
-                while True:
-                    if os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
-                        break
-                    time.sleep(0.4)
+                    while True:
+                        if os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
+                            break
+                        time.sleep(0.4)
 
-                if "Clyde" in body.text and "Your message could not be delivered." in body.text:
-                    print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
-                elif "Something's Going on Here" in body.text:
-                    print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", unknown reason")
-                    worker()
-                    return False
+                    if "Clyde" in body.text and "Your message could not be delivered." in body.text:
+                        print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
+                    elif "Something's Going on Here" in body.text:
+                        print(f"Sending to {user[1]} "+"\033[31m"+"Failed"+"\033[0m"+", unknown reason")
+                        self.close_driver()
+                        return False
 
-                self.driver.back()
-                print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
-                time.sleep(40)
+                    newData = DataBase('', name, 1)
+                    newData.GoToDB()
+                    print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
+                    total_sent += 1
+                    self.driver.back()
+                    self.send()
 
-        newData = DataBase('', name, 1)
-        newData.GoToDB()
+        return True
 
     def close_driver(self):
         self.driver.close()
 
 def worker():
+    global total_sent
+    total_sent = 0
+
     username = generate_username(1)[0]
     new_email = username + "@gmail.com"
     password = password_gen()    
@@ -173,7 +180,8 @@ def worker():
 
         print("\033[32m"+"Joined the guild successfully"+"\033[0m")
         
-        d.send()
+        if not d.send():
+            worker()
         
     except Exception as e:
         print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
