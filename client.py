@@ -165,6 +165,16 @@ class DiscordGen:
                         break
                     time.sleep(0.4)
                 self.driver.find_element_by_class_name("colorRed-1TFJan").click()
+
+                while True:
+                    if not len(self.driver.find_elements_by_class_name("colorRed-1TFJan")):
+                        break
+                    time.sleep(0.4)
+                if len(self.driver.find_elements_by_class_name("childWrapper-anI2G9")) == 1:
+                    print("\033[32m"+"Leaved the guild successfully"+"\033[0m")
+                else:
+                    print("\033[31m"+"Leaving the guild failed!"+"\033[0m")
+
                 break
 
         return True
