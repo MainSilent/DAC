@@ -147,8 +147,8 @@ class DiscordGen:
                         return False
                     else:
                         print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
-                        total_sent += 1
 
+                    total_sent += 1
                     newData = DataBase('', name, 1)
                     newData.GoToDB()
                     self.driver.back()
