@@ -40,11 +40,13 @@ class DiscordGen:
     def register(self):
         self.driver.get('http://www.example.com')
 
-        with open("h_captcha.json", "r") as f:
-            h_captcha = json.load(f)
-
-        for cookie in h_captcha:
-            self.driver.add_cookie(cookie)
+        try:
+            with open("h_captcha.json", "r") as f:
+                h_captcha = json.load(f)
+            for cookie in h_captcha:
+                self.driver.add_cookie(cookie)
+        except Exception as e:
+            print(e)
 
         self.driver.get('https://discord.com/register')
 
@@ -105,6 +107,9 @@ class DiscordGen:
                     else:
                         self.close_driver()
                         return False
+                elif "Email is already registered" in body.text:
+                    self.close_driver()
+                    worker()
                 elif "checkbox" in body.get_attribute('innerHTML'):
                     self.driver.switch_to.frame(0)
                     while True:
@@ -126,6 +131,13 @@ class DiscordGen:
         if "https://discord.com/channels/@me" != self.driver.current_url:
             self.close_driver()
             return False
+
+        while True:
+            if "https://discord.com/channels/@me" != self.driver.current_url:
+                break
+            elif "The invite is invalid or has expired." in self.driver.find_element_by_xpath("/html/body").text:
+                print("\033[31m"+"Invalid invite code!"+"\033[0m")
+                raise Exception("invalid invite")
 
         return True
 
