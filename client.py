@@ -17,6 +17,8 @@ from colorama import Fore, Style
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dotenv import load_dotenv; load_dotenv()
 
+total_sent = 0
+
 def password_gen(length=8, chars= string.ascii_letters + string.digits + string.punctuation):
         return ''.join(random.choice(chars) for _ in range(length))  
 
@@ -111,8 +113,8 @@ class DiscordGen:
 
         return True
 
-    def send(self):
-        count = 0
+    def send(self, count = 0):
+        global total_sent
 
         while True:
             try:
@@ -145,12 +147,13 @@ class DiscordGen:
                         return False
                     else:
                         print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
+                        total_sent += 1
 
                     count += 1
                     newData = DataBase('', name, 1)
                     newData.GoToDB()
                     self.driver.back()
-                    self.send()
+                    self.send(count)
 
             # Leave the guild
             else:

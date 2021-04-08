@@ -5,7 +5,7 @@ from hcaptcha import get_cookie
 from database import DataBase
 from client import worker
 
-print(f"{DataBase.Count()} Users sent\n")
+print(f"{DataBase.nCount()} Users sent\n")
 print("1- Send message to users")
 print("2- Refresh h_captcha cookie")
 print("3- Truncate users")

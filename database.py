@@ -44,7 +44,7 @@ class DataBase:
     @classmethod
     def nCount(self):
         with conn:
-            c.execute("SELECT * FROM Users WHERE send = 0")
+            c.execute("SELECT * FROM Users WHERE send = 1")
             return len(c.fetchall())
 
     @classmethod
