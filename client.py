@@ -27,7 +27,7 @@ class DiscordGen:
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--proxy-server=%s' % Proxy.get())
+        #options.add_argument('--proxy-server=%s' % Proxy.get())
 
         caps = DesiredCapabilities.CHROME
         caps['goog:loggingPrefs'] = {'performance': 'ALL'}
@@ -150,63 +150,75 @@ class DiscordGen:
             except:
                 time.sleep(0.4)
 
-        for user in self.driver.find_elements_by_class_name('member-3-YXUe'):
-            if count < 4:
-                name = user.find_element_by_class_name('name-uJV0GL').text
-                if not DataBase.Status(name) and name != self.username:
-                    user.click()
-                    self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(os.getenv("msg"))
-                    self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(Keys.ENTER)
-                    
-                    body = self.driver.find_element_by_xpath("/html/body")
+        users = self.driver.find_elements_by_class_name('member-3-YXUe')
+        if self.check(users):
+            for user in users:
+                if count < 4:
+                    name = user.find_element_by_class_name('name-uJV0GL').text
+                    if not DataBase.Status(name) and name != self.username:
+                        user.click()
+                        self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(os.getenv("msg"))
+                        self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(Keys.ENTER)
+                        
+                        body = self.driver.find_element_by_xpath("/html/body")
+
+                        while True:
+                            if name in body.text and os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
+                                break
+                            time.sleep(0.4)
+                        time.sleep(2)
+
+                        if "Clyde" in body.text and "Your message could not be delivered." in body.text:
+                            print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
+                            newData = DataBase('', name, 1)
+                            newData.GoToDB()
+                        elif "Something's Going on Here" in body.text:
+                            print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", system detected!")
+                            self.close_driver()
+                            return False
+                        else:
+                            print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
+                            newData = DataBase('', name, 2)
+                            newData.GoToDB()
+
+                        count += 1
+                        self.driver.back()
+                        self.send(count)
+
+                # Leave the guild
+                else:
+                    self.driver.find_element_by_class_name("header-2V-4Sw").click()
+                    time.sleep(1)
+                    self.driver.find_element_by_class_name("colorDanger-2qLCe1").click()
 
                     while True:
-                        if name in body.text and os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
+                        if len(self.driver.find_elements_by_class_name("colorRed-1TFJan")):
                             break
                         time.sleep(0.4)
-                    time.sleep(2)
+                    self.driver.find_element_by_class_name("colorRed-1TFJan").click()
 
-                    if "Clyde" in body.text and "Your message could not be delivered." in body.text:
-                        print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
-                        newData = DataBase('', name, 1)
-                        newData.GoToDB()
-                    elif "Something's Going on Here" in body.text:
-                        print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", system detected!")
-                        self.close_driver()
-                        return False
+                    while True:
+                        if not len(self.driver.find_elements_by_class_name("colorRed-1TFJan")):
+                            break
+                        time.sleep(0.4)
+                    if len(self.driver.find_elements_by_class_name("childWrapper-anI2G9")) == 1:
+                        print("\033[32m"+"Leaved the guild successfully"+"\033[0m")
                     else:
-                        print(f"Sending to {name} "+"\033[32m"+"Success"+"\033[0m")
-                        newData = DataBase('', name, 2)
-                        newData.GoToDB()
+                        print("\033[31m"+"Leaving the guild failed!"+"\033[0m")
 
-                    count += 1
-                    self.driver.back()
-                    self.send(count)
-
-            # Leave the guild
-            else:
-                self.driver.find_element_by_class_name("header-2V-4Sw").click()
-                time.sleep(1)
-                self.driver.find_element_by_class_name("colorDanger-2qLCe1").click()
-
-                while True:
-                    if len(self.driver.find_elements_by_class_name("colorRed-1TFJan")):
-                        break
-                    time.sleep(0.4)
-                self.driver.find_element_by_class_name("colorRed-1TFJan").click()
-
-                while True:
-                    if not len(self.driver.find_elements_by_class_name("colorRed-1TFJan")):
-                        break
-                    time.sleep(0.4)
-                if len(self.driver.find_elements_by_class_name("childWrapper-anI2G9")) == 1:
-                    print("\033[32m"+"Leaved the guild successfully"+"\033[0m")
-                else:
-                    print("\033[31m"+"Leaving the guild failed!"+"\033[0m")
-
-                break
+                    break
+        # scroll if check failed
+        else:
+            print("scrolling")
 
         return True
+
+    def check(self, users):
+        return True
+        # res = []
+        # for user in users:
+        #     if not DataBase.Status(name) and name != self.username
+        # return len(res)
 
     def close_driver(self):
         self.driver.close()
