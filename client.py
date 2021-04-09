@@ -19,6 +19,14 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dotenv import load_dotenv; load_dotenv()
 
 last_scroll = 0
+filter_status = int(os.getenv("filter")) 
+default_avatars = [
+    "322c936a8c8be1b803cd94861bdfa868", # Gray
+    "6debd47ed13483642cf09e832ed0bc1b", # Blue
+    "1cbd08c76f8af6dddce02c5138971129", # Red
+    "dd4dbc0016779df1378e7812eabaa04d", # Green
+    "0e291f67c9274a1abdddeb3fd919cbaa", # Yellow
+]
 
 def password_gen(length=8, chars= string.ascii_letters + string.digits + string.punctuation):
         return ''.join(random.choice(chars) for _ in range(length))  
@@ -158,6 +166,8 @@ class DiscordGen:
                 if count < 4:
                     name = user.find_element_by_class_name('name-uJV0GL').text
                     if not DataBase.Status(name) and name != self.username and not len(user.find_elements_by_class_name("botText-1526X_")):
+                        if filter_status and self.check_profile(user):
+                            continue
                         user.click()
                         self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(os.getenv("msg"))
                         self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(Keys.ENTER)
@@ -168,7 +178,8 @@ class DiscordGen:
                             if name in body.text and os.getenv("msg") in body.text or "Something's Going on Here" in body.text:
                                 break
                             time.sleep(0.4)
-                        time.sleep(2)
+                        if filter_status:
+                            time.sleep(2)
 
                         if "Clyde" in body.text and "Your message could not be delivered." in body.text:
                             print(f"Sending to {name} "+"\033[31m"+"Failed"+"\033[0m"+", user doesn't allow direct message")
@@ -232,11 +243,20 @@ class DiscordGen:
             for user in users:
                 name = user.find_element_by_class_name('name-uJV0GL').text
                 if not DataBase.Status(name) and name != self.username and not len(user.find_elements_by_class_name("botText-1526X_")):
+                    if filter_status and self.check_profile(user):
+                        continue
                     res.append(user)
 
             return len(res)
         except:
             return False
+
+    def check_profile(self, user):
+        url = user.find_element_by_class_name("avatar-VxgULZ").get_attribute("src")
+        url = url.split("/")[-1].split(".")[0]
+        if url in default_avatars:
+            return True
+        return False
 
     def close_driver(self):
         self.driver.close()
