@@ -1,9 +1,8 @@
+import pycurl
 import sqlite3
-from proxy_checker import ProxyChecker
 
 conn = sqlite3.connect('Data.db')
 c = conn.cursor()
-checker = ProxyChecker()
 
 class DataBase:
     def __init__(self,username,uID,send):
@@ -85,7 +84,7 @@ class Proxy:
         # return proxy
         for proxy in proxies:
             if not proxy[2]:
-                if not checker.check_proxy(proxy[1]):
+                if not self.check(proxy[1]):
                     print("Proxy: "+proxy[1]+" Failed, removing...")
                     with conn:
                         c.execute(f"DELETE FROM Proxies WHERE id = {proxy[0]}")
@@ -105,6 +104,21 @@ class Proxy:
             self.get(True)
         elif not count and sec: 
             print("No proxy")
+            return False
+
+    @classmethod        
+    def check(self, addr):
+        try:
+            c = pycurl.Curl()
+            c.setopt(pycurl.URL, "https://example.com")
+            c.setopt(pycurl.PROXY, addr)
+            c.setopt(pycurl.NOBODY, 1)
+            c.setopt(pycurl.CONNECTTIMEOUT, 1000)
+            c.perform()
+            if c.getinfo(pycurl.RESPONSE_CODE) == 2:
+                return True
+            return False
+        except:
             return False
 
     @classmethod
