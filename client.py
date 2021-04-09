@@ -111,7 +111,7 @@ class DiscordGen:
                 elif "Email is already registered" in body.text:
                     self.close_driver()
                     worker()
-                elif "checkbox" in body.get_attribute('innerHTML'):
+                elif "checkbox" in body.get_attribute('innerHTML') and "Beep" in body.text:
                     self.driver.switch_to.frame(0)
                     while True:
                         try:
@@ -142,7 +142,7 @@ class DiscordGen:
 
         return True
 
-    def send(self, count = 0):
+    def send(self, count = 0, last_scroll = 0):
         while True:
             try:
                 if self.driver.find_element_by_class_name('member-3-YXUe').text:
@@ -183,7 +183,7 @@ class DiscordGen:
 
                         count += 1
                         self.driver.back()
-                        self.send(count)
+                        self.send(count, last_scroll)
 
                 # Leave the guild
                 else:
@@ -209,17 +209,28 @@ class DiscordGen:
                     break
         # scroll if check failed
         else:
-            print("scrolling")
+            self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll})')
+            users = self.driver.find_elements_by_class_name('member-3-YXUe')
+            
+            while not self.check(users):
+                last_scroll += 100
+                self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll})')
+                users = self.driver.find_elements_by_class_name('member-3-YXUe')
+            self.send(count, last_scroll)
 
         return True
 
     def check(self, users):
-        users = self.driver.find_elements_by_class_name('member-3-YXUe')
-        return True
-        # res = []
-        # for user in users:
-        #     if not DataBase.Status(name) and name != self.username
-        # return len(res)
+        try:
+            res = []
+            for user in users:
+                name = user.find_element_by_class_name('name-uJV0GL').text
+                if not DataBase.Status(name) and name != self.username and not len(user.find_elements_by_class_name("botText-1526X_")):
+                    res.append(user)
+
+            return len(res)
+        except:
+            return False
 
     def close_driver(self):
         self.driver.close()
