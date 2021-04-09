@@ -18,6 +18,8 @@ from colorama import Fore, Style
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dotenv import load_dotenv; load_dotenv()
 
+last_scroll = 0
+
 def password_gen(length=8, chars= string.ascii_letters + string.digits + string.punctuation):
         return ''.join(random.choice(chars) for _ in range(length))  
 
@@ -142,7 +144,7 @@ class DiscordGen:
 
         return True
 
-    def send(self, count = 0, last_scroll = 0):
+    def send(self, count = 0):
         while True:
             try:
                 if self.driver.find_element_by_class_name('member-3-YXUe').text:
@@ -183,7 +185,7 @@ class DiscordGen:
 
                         count += 1
                         self.driver.back()
-                        self.send(count, last_scroll)
+                        self.send(count)
 
                 # Leave the guild
                 else:
@@ -209,6 +211,10 @@ class DiscordGen:
                     break
         # scroll if check failed
         else:
+            if count == 4:
+                return True
+
+            global last_scroll
             self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll})')
             users = self.driver.find_elements_by_class_name('member-3-YXUe')
             
@@ -216,7 +222,7 @@ class DiscordGen:
                 last_scroll += 100
                 self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll})')
                 users = self.driver.find_elements_by_class_name('member-3-YXUe')
-            self.send(count, last_scroll)
+            self.send(count)
 
         return True
 
