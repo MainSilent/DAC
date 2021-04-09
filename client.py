@@ -18,7 +18,6 @@ from colorama import Fore, Style
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from dotenv import load_dotenv; load_dotenv()
 
-last_scroll = 0
 filter_status = int(os.getenv("filter")) 
 default_avatars = [
     "322c936a8c8be1b803cd94861bdfa868", # Gray
@@ -152,7 +151,7 @@ class DiscordGen:
 
         return True
 
-    def send(self, count = 0):
+    def send(self, count = 0, last_scroll = 0):
         while True:
             try:
                 if self.driver.find_element_by_class_name('member-3-YXUe').text:
@@ -196,7 +195,7 @@ class DiscordGen:
 
                         count += 1
                         self.driver.back()
-                        self.send(count)
+                        self.send(count, last_scroll)
 
                 # Leave the guild
                 else:
@@ -227,15 +226,14 @@ class DiscordGen:
             if count == 4:
                 return True
 
-            global last_scroll
-            self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll})')
+            self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll.value})')
             users = self.driver.find_elements_by_class_name('member-3-YXUe')
             
             while not self.check(users):
-                last_scroll += 100
-                self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll})')
+                last_scroll.value += 100
+                self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll.value})')
                 users = self.driver.find_elements_by_class_name('member-3-YXUe')
-            self.send(count)
+            self.send(count, last_scroll)
 
         return True
 
@@ -263,7 +261,7 @@ class DiscordGen:
     def close_driver(self):
         self.driver.close()
 
-def worker():
+def worker(scroll):
     username = generate_username(1)[0]
     new_email = username + "@gmail.com"
     password = password_gen()    
@@ -283,7 +281,7 @@ def worker():
             print("\033[31m"+"Joining the guild failed!"+"\033[0m")
             return
         
-        if not d.send():
+        if not d.send(0, scroll):
             return
         
     except Exception as e:

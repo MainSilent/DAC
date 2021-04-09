@@ -1,6 +1,6 @@
 import os
 import time 
-from multiprocessing import Process
+from multiprocessing import Process, Manager
 from hcaptcha import get_cookie
 from database import DataBase, Proxy
 from client import worker
@@ -12,10 +12,25 @@ print("2- Add proxy")
 print("3- Refresh h_captcha cookie")
 print("4- Truncate sent")
 
+manager = Manager()
+scroll = manager.Value('scroll', 0)
 choice = int(input("Choose by number: "))
 
 if choice == 1:
-	worker()
+	max_range = int(input("max range: "))
+	while True:
+		if max_range != -1 and DataBase.sentCount() >= max_range:
+			break
+			print("Max messages reached")
+
+		p = Process(target=worker, args=(scroll,))
+		p.start()
+		time.sleep(110)
+		p.terminate()
+		os.system("pkill chromium; pkill chrome")
+		print(f"{DataBase.sentCount()}/{max_range} sent")
+		print("Waiting for next worker...\n")
+		time.sleep(110)
 elif choice == 2:
 	print()
 	while True:
