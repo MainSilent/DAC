@@ -128,6 +128,7 @@ class DiscordGen:
                         try:
                             if not self.driver.find_element_by_id("checkbox").get_attribute("style"):
                                 self.driver.find_element_by_id("checkbox").send_keys(Keys.ENTER)
+                                time.sleep(1)
                         except:
                             self.driver.switch_to.parent_frame()
                             break
