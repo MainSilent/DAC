@@ -218,6 +218,8 @@ class DiscordGen:
                         print("\033[32m"+"Leaved the guild successfully"+"\033[0m")
                     else:
                         print("\033[31m"+"Leaving the guild failed!"+"\033[0m")
+                        with open("failed.txt", "a") as f:
+                            f.write(f'{self.username}\n{self.password}\n\n')
 
                     break
         # scroll if check failed
