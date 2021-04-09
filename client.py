@@ -155,7 +155,7 @@ class DiscordGen:
             for user in users:
                 if count < 4:
                     name = user.find_element_by_class_name('name-uJV0GL').text
-                    if not DataBase.Status(name) and name != self.username:
+                    if not DataBase.Status(name) and name != self.username and not len(user.find_elements_by_class_name("botText-1526X_")):
                         user.click()
                         self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(os.getenv("msg"))
                         self.driver.find_elements_by_class_name("input-cIJ7To")[1].send_keys(Keys.ENTER)
@@ -214,6 +214,7 @@ class DiscordGen:
         return True
 
     def check(self, users):
+        users = self.driver.find_elements_by_class_name('member-3-YXUe')
         return True
         # res = []
         # for user in users:

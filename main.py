@@ -10,7 +10,7 @@ print(f"{DataBase.sentCount()} Users sent\n")
 print("1- Send message to users")
 print("2- Add proxy")
 print("3- Refresh h_captcha cookie")
-print("4- Truncate users")
+print("4- Truncate sent")
 
 choice = int(input("Choose by number: "))
 
