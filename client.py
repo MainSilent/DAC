@@ -225,17 +225,20 @@ class DiscordGen:
                     break
         # scroll if check failed
         else:
-            if count == 4:
-                return True
+            try:
+                if count == 4:
+                    return True
 
-            self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll.value})')
-            users = self.driver.find_elements_by_class_name('member-3-YXUe')
-            
-            while not self.check(users):
-                last_scroll.value += 100
                 self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll.value})')
                 users = self.driver.find_elements_by_class_name('member-3-YXUe')
-            self.send(count, last_scroll)
+                
+                while not self.check(users):
+                    last_scroll.value += 100
+                    self.driver.execute_script(f'document.querySelector(".members-1998pB").scroll(0, {last_scroll.value})')
+                    users = self.driver.find_elements_by_class_name('member-3-YXUe')
+                self.send(count, last_scroll)
+            except:
+                self.send(count, last_scroll)
 
         return True
 

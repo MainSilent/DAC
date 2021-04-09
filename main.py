@@ -29,9 +29,12 @@ if choice == 1:
 		time.sleep(110)
 		p.terminate()
 		os.system("pkill chromium; pkill chrome")
-		print(f"{DataBase.sentCount()}/{max_range} sent")
+		if max_range != -1:
+			print(f"{DataBase.sentCount()}/{max_range} sent")
+		else:
+			print(f"{DataBase.sentCount()} sent")
 
-		if not int(os.getenv("proxy")) and not DataBase.sentCount() >= max_range:
+		if not int(os.getenv("proxy")) and max_range == -1 or not DataBase.sentCount() >= max_range:
 			print("Waiting for next worker...\n")
 			time.sleep(110)
 elif choice == 2:
