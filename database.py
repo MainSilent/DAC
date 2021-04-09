@@ -69,9 +69,16 @@ class DataBase:
 class Proxy:
     @classmethod
     def add(self, address):
-        with conn:
-            c.execute(f"INSERT INTO 'main'.'Proxies'('id','address','used') VALUES (NULL,?,0)",(address,))
-        print("Added\n")
+        if address.split('.')[-1] == "txt":
+            with open(address) as f:
+                for proxy in f.read().split("\n"):
+                    with conn:
+                        c.execute("INSERT INTO 'main'.'Proxies'('id','address','used') VALUES (NULL,?,0)",(proxy,))
+                    print("Added: "+proxy)
+        else:
+            with conn:
+                c.execute(f"INSERT INTO 'main'.'Proxies'('id','address','used') VALUES (NULL,?,0)",(address,))
+            print("Added\n")
     
     @classmethod
     def get(self, sec = False):
@@ -101,7 +108,7 @@ class Proxy:
         if not count and not sec:
             with conn:
                 c.execute(f"UPDATE Proxies SET used = 0")
-            self.get(True)
+            return self.get(True)
         elif not count and sec: 
             print("No proxy")
             return False
@@ -115,7 +122,7 @@ class Proxy:
             c.setopt(pycurl.NOBODY, 1)
             c.setopt(pycurl.CONNECTTIMEOUT, 1000)
             c.perform()
-            if c.getinfo(pycurl.RESPONSE_CODE) == 2:
+            if c.getinfo(pycurl.RESPONSE_CODE) == 200:
                 return True
             return False
         except:
