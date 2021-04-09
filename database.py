@@ -75,6 +75,9 @@ class Proxy:
                     with conn:
                         c.execute("INSERT INTO 'main'.'Proxies'('id','address','used') VALUES (NULL,?,0)",(proxy,))
                     print("Added: "+proxy)
+        if address == "remove":
+            with conn:
+                c.execute("DELETE FROM proxies")
         else:
             with conn:
                 c.execute(f"INSERT INTO 'main'.'Proxies'('id','address','used') VALUES (NULL,?,0)",(address,))

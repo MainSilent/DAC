@@ -36,7 +36,9 @@ class DiscordGen:
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        #options.add_argument('--proxy-server=%s' % Proxy.get())
+
+        if int(os.getenv("proxy")): 
+            options.add_argument('--proxy-server=%s' % Proxy.get())
 
         caps = DesiredCapabilities.CHROME
         caps['goog:loggingPrefs'] = {'performance': 'ALL'}

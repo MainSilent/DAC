@@ -4,6 +4,7 @@ from multiprocessing import Process, Manager
 from hcaptcha import get_cookie
 from database import DataBase, Proxy
 from client import worker
+from dotenv import load_dotenv; load_dotenv()
 
 print(f"{Proxy.count()} Proxy")
 print(f"{DataBase.sentCount()} Users sent\n")
@@ -30,7 +31,9 @@ if choice == 1:
 		os.system("pkill chromium; pkill chrome")
 		print(f"{DataBase.sentCount()}/{max_range} sent")
 		print("Waiting for next worker...\n")
-		time.sleep(110)
+
+		if not int(os.getenv("proxy")):
+			time.sleep(110)
 elif choice == 2:
 	print()
 	while True:
