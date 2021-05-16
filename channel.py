@@ -86,5 +86,5 @@ def add(user):
     if 'bot' not in user.keys() and not DataBase.Status(id):
         username = user['username']
         print(f"Adding {username} to database")
-        newUser = DataBase(username, id, 0)
+        newUser = DataBase(username, id, 1)
         newUser.GoToDB()

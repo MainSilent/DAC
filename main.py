@@ -8,7 +8,7 @@ from channel import fetch
 from dotenv import load_dotenv; load_dotenv()
 
 print(f"{Proxy.count()} Proxy")
-print(f"{DataBase.sentCount()} Users sent\n")
+print(f"{DataBase.sentCount()}/{DataBase.nCount()} Users sent\n")
 print("1- Send message to users")
 print("2- Fetch users")
 print("3- Add proxy")
