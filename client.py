@@ -145,7 +145,7 @@ class DiscordGen:
     def close_driver(self):
         self.driver.close()
 
-def worker(scroll):
+def worker():
     username = generate_username(1)[0]
     new_email = username + "@gmail.com"
     password = password_gen()    
@@ -165,9 +165,8 @@ def worker(scroll):
             print("\033[31m"+"Joining the guild failed!"+"\033[0m")
             return
         
-        if not d.send(0, scroll):
+        if not d.send():
             return
         
     except Exception as e:
-        ...
-        #print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Webdriver Error: " + str(e))
+        print(f"{Fore.LIGHTMAGENTA_EX}[!]{Style.RESET_ALL} Error: " + str(e))
