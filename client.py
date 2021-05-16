@@ -94,9 +94,8 @@ class DiscordGen:
         self.driver.find_element_by_class_name('button-3k0cO7').click() # Submit button        
         print(f'{Fore.LIGHTMAGENTA_EX}[*]{Style.RESET_ALL} Submit form')
         
-        body = self.driver.find_element_by_xpath("/html/body")
-
         while True:
+            body = self.driver.find_element_by_xpath("/html/body")
             if "https://discord.com/channels/@me" == self.driver.current_url and body.text and "DID YOU KNOW" not in body.text:
                 if "Join a server" in body.text:
                     newData = DataBase('', self.username, 0)
@@ -114,17 +113,15 @@ class DiscordGen:
                     try:
                         if not self.driver.find_element_by_id("checkbox").get_attribute("style"):
                             self.driver.find_element_by_id("checkbox").send_keys(Keys.ENTER)
-                            time.sleep(1)
+                            time.sleep(10)
                     except:
                         self.driver.switch_to.parent_frame()
                         break
-
             time.sleep(0.4)
 
     def join(self):
         print("Joining the guild...")
-        result = self.driver.execute_script(
-            f"""
+        result = f"""
             function getLocalStoragePropertyDescriptor() {{
               const iframe = document.createElement('iframe');
               document.head.append(iframe);
@@ -142,12 +139,10 @@ class DiscordGen:
                     return this.status
             }}
             xhttp.open("POST", "https://discord.com/api/v9/invites/{os.getenv("invite")}", true);
-            xhttp.setRequestHeader("authorization", localStorage.getItem("token").trim('"'));
+            xhttp.setRequestHeader("authorization", "{token}");
             xhttp.setRequestHeader("x-super-properties", "eyJvcyI6IkxpbnV4IiwiYnJvd3NlciI6IkNocm9tZSIsImRldmljZSI6IiIsInN5c3RlbV9sb2NhbGUiOiJlbi1VUyIsImJyb3dzZXJfdXNlcl9hZ2VudCI6Ik1vemlsbGEvNS4wIChYMTE7IExpbnV4IHg4Nl82NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzkwLjAuNDQzMC45MyBTYWZhcmkvNTM3LjM2IiwiYnJvd3Nlcl92ZXJzaW9uIjoiOTAuMC40NDMwLjkzIiwib3NfdmVyc2lvbiI6IiIsInJlZmVycmVyIjoiIiwicmVmZXJyaW5nX2RvbWFpbiI6IiIsInJlZmVycmVyX2N1cnJlbnQiOiIiLCJyZWZlcnJpbmdfZG9tYWluX2N1cnJlbnQiOiIiLCJyZWxlYXNlX2NoYW5uZWwiOiJzdGFibGUiLCJjbGllbnRfYnVpbGRfbnVtYmVyIjo4NTAzOSwiY2xpZW50X2V2ZW50X3NvdXJjZSI6bnVsbH0=");
             xhttp.send();
-            """)
-        print(result)
-        time.sleep(510)
+            """
 
     def send(self):
         ...
