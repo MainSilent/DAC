@@ -26,9 +26,9 @@ if choice == 1:
 			break
 			print("Max messages reached")
 
-		p = Process(target=worker, args=(scroll,))
+		p = Process(target=worker)
 		p.start()
-		time.sleep(110)
+		time.sleep(1210)
 		p.terminate()
 		os.system("pkill chromium; pkill chrome")
 		if max_range != -1:
