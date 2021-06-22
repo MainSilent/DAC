@@ -9,9 +9,18 @@ headers = {
 }
 
 register_url = "https://discord.com/api/v9/auth/register"
+settings_url = "https://discord.com/api/v9/users/@me/settings"
 
 def is_valid(token):
-	...
+	headers = {
+		'authorization': 'ODUxMzQxMTYyMjMzMjAwNzAw.YL23bg.o-ay99ZKtrY0_O9SgyIyVXMFGw4',
+		'Cookie': '__dcfduid=61f8ced90af24ebc9736ccf74c566850'
+	}
+	response = requests.request("GET", settings_url, headers=headers)
+	if response.status == 200
+		print(token)
+	else:
+		print("Busted!")
 
 def create():
 	payload = json.dumps({
