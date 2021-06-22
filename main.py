@@ -1,6 +1,6 @@
 from database import DataBase
 
-print(f"{DataBase.sentCount()}/{DataBase.nCount()} Users sent\n")
+print(f"{DataBase.Count()} Users\n")
 print("1- Create users")
 print("2- Refresh h_captcha cookie")
 
