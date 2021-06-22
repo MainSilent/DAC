@@ -16,5 +16,5 @@ def create():
 		"username": generate_username(1)[0],
 		"captcha_key": ""
 	})
-	response = requests.request("POST", url, headers=headers, data=payload)
+	response = requests.request("POST", register_url, headers=headers, data=payload)
 	print(response.text)
