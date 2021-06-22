@@ -10,6 +10,9 @@ headers = {
 
 register_url = "https://discord.com/api/v9/auth/register"
 
+def is_valid(token):
+	...
+
 def create():
 	payload = json.dumps({
 		"consent": True,
@@ -17,4 +20,7 @@ def create():
 		"captcha_key": ""
 	})
 	response = requests.request("POST", register_url, headers=headers, data=payload)
-	print(response.text)
+	try:
+		is_valid(json.loads(response.text)["token"])
+	except:
+		print("Failed")
