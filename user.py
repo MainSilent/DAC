@@ -52,6 +52,7 @@ def create():
 		captcha_key = hcaptcha.new()
 		if not captcha_key:
 			raise Exception("Failed to get captcha key")
+		print("\033[33mSuccessfully received captcha key\033[0m")
 
 		# For now we only want to invite, for not getting accounts ban uncomment the headers
 		headers = {
