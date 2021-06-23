@@ -80,7 +80,8 @@ def create():
 		else:
 			raise Exception("failed to get token")
 	except Exception as e:
-		print(e)
-		if response:
+		try:
 			print(response.text)
+		except:
+			print(e)
 		print(f"Creating {user}, \033[31mFailed\033[0m - {DataBase.Count()}")
