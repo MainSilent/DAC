@@ -17,7 +17,7 @@ if choice == 1:
 		print()
 
 		if tor == 'y':
-			if os.system("") != 0:
+			if os.system("kalitorify -t") != 0:
 				print("Failed to start tor")
 			else:
 				print("Tor Started")
@@ -25,7 +25,7 @@ if choice == 1:
 		create()
 
 		if tor == 'y':
-			if os.system("") != 0:
+			if os.system("kalitorify -c") != 0:
 				print("Failed to stop tor")
 			else:
 				print("Tor Stopped")
