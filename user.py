@@ -30,4 +30,5 @@ def create():
 	try:
 		is_valid(json.loads(response.text)["token"])
 	except:
+		print(response.text)
 		print("Failed")
