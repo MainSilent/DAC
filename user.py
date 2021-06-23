@@ -55,7 +55,7 @@ def create():
 		"password": password_gen(),
 		"date_of_birth": "1998-05-14",
 		"consent": True,
-		"invite": None,
+		"invite": invite if invite else None,
 		"gift_code_sku_id": None,
 		"captcha_key": ""
 	})
