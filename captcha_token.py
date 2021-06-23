@@ -33,5 +33,3 @@ def get_cookie():
 				break
 		except:
 			time.sleep(0.4)
-
-get_cookie()

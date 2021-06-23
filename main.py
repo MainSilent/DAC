@@ -1,5 +1,6 @@
 from user import create
 from database import DataBase
+from captcha_token import get_cookie
 
 print(f"{DataBase.Count()} Users\n")
 print("1- Create users")
