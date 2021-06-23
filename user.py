@@ -32,12 +32,12 @@ def join(token):
             'Content-Type': 'application/json'
         }
         response = requests.request("POST", url, headers=headers)
-		if response.status_code == 200:
-			print("Joined")
-			return True
-		else:
-			print("Failed to Join")
-			return False
+        if response.status_code == 200:
+            print("Joined")
+            return True
+        else:
+            print("Failed to Join")
+            return False
     except:
         print("\033[31m"+"Failed to join the guild"+"\033[0m")
         return False
