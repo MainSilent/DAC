@@ -2,6 +2,7 @@ import os
 import json
 import string
 import random
+import hcaptcha
 import requests
 from database import DataBase
 from dotenv import load_dotenv; load_dotenv()

@@ -39,21 +39,22 @@ def response_interceptor(request, response):
 			print(data['generated_pass_UUID'])
 		driver.close()
 
-options = Options()
-options.add_argument("--headless")
-driver = Chrome(executable_path="./chromedriver", options=options)
-driver.request_interceptor = request_interceptor
-driver.response_interceptor = response_interceptor
-driver.get(f'file://{os.getcwd()}/hcaptcha.html')
+def new():
+	options = Options()
+	options.add_argument("--headless")
+	driver = Chrome(executable_path="./chromedriver", options=options)
+	driver.request_interceptor = request_interceptor
+	driver.response_interceptor = response_interceptor
+	driver.get(f'file://{os.getcwd()}/hcaptcha.html')
 
-while True:
-	try:
-		driver.switch_to.frame(0)
-		driver.find_element_by_id("checkbox").click()
-		break
-	except Exception as e:
-		#print(e)
-		driver.switch_to.default_content()
-		time.sleep(0.2)
+	while True:
+		try:
+			driver.switch_to.frame(0)
+			driver.find_element_by_id("checkbox").click()
+			break
+		except Exception as e:
+			#print(e)
+			driver.switch_to.default_content()
+			time.sleep(0.2)
 
-time.sleep(60)
+	time.sleep(60)
