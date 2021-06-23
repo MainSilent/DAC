@@ -45,6 +45,10 @@ def join(token):
         return False
 
 def create():
+	captcha_key = hcaptcha.new()
+	if not captcha_key:
+		raise Exception("Failed to get captcha key")
+
 	# For now we only want to invite, for not getting accounts ban uncomment the headers
 	headers = {
 		'Content-Type': 'application/json',
@@ -60,7 +64,7 @@ def create():
 		"consent": True,
 		"invite": invite if invite else None,
 		"gift_code_sku_id": None,
-		"captcha_key": hcaptcha.new()
+		"captcha_key": captcha_key
 	})
 	response = requests.request("POST", register_url, headers=headers, data=payload)
 	try:
@@ -71,6 +75,8 @@ def create():
 			print(f"Creating {user}, \033[32mSuccess\033[0m - {DataBase.Count()}")
 		else:
 			raise Exception("failed to get token")
-	except:
-		print(response.text)
+	except Exception as e:
+		print(e)
+		if response:
+			print(response.text)
 		print(f"Creating {user}, \033[31mFailed\033[0m - {DataBase.Count()}")
