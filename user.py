@@ -64,7 +64,7 @@ def create():
 	try:
 		#is_valid(json.loads(response.text)["token"])
 		if json.loads(response.text)["token"]:
-			print(f"Creating {user} "+"\033[32m"+"Success"+"\033[0m")
+			print(f"Creating {user}, "+"\033[32m"+"Success"+"\033[0m")
 	except:
 		print(response.text)
-		print(f"Creating {user} "+"\033[31m"+"Failed"+"\033[0m")
+		print(f"Creating {user}, "+"\033[31m"+"Failed"+"\033[0m")
