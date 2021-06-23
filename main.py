@@ -1,3 +1,4 @@
+import os
 from user import create
 from database import DataBase
 from captcha_token import get_cookie
@@ -16,11 +17,17 @@ if choice == 1:
 		print()
 
 		if tor == 'y':
-			...
+			if os.system("") != 0:
+				print("Failed to start tor ip")
+			else:
+				print("Tor Started")
 
 		create()
 
 		if tor == 'y':
-			...
+			if os.system("") != 0:
+				print("Failed to stop tor ip")
+			else:
+				print("Tor Stopped")
 elif choice == 2:
     get_cookie()
