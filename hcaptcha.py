@@ -2,6 +2,7 @@ import os
 import time
 import json
 import gzip
+import signal
 from selenium.webdriver.chrome.options import Options
 from seleniumwire.undetected_chromedriver import Chrome
 
@@ -39,6 +40,7 @@ def response_interceptor(request, response):
 		except:
 			print(data['generated_pass_UUID'])
 		driver.close()
+		os.kill(os.getpid(), signal.SIGTERM)
 
 def new():
 	global driver
