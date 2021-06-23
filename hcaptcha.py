@@ -9,6 +9,7 @@ from seleniumwire.undetected_chromedriver import Chrome
 # Note: You should also change the site key in html file
 host = "discord.com"
 driver = None
+key = ""
 
 def get_token():
 	with open("h_captcha.json", "r") as f:
@@ -36,9 +37,10 @@ def response_interceptor(request, response):
 		data = json.loads(body)
 		try:
 			if data["bypass-message"]:
-				print("Failed")
+				key = False
 		except:
-			print(data['generated_pass_UUID'])
+			global key
+			key = data['generated_pass_UUID']
 		driver.close()
 
 def new():
@@ -60,7 +62,8 @@ def new():
 			driver.switch_to.default_content()
 			time.sleep(0.2)
 
-	time.sleep(60)
+	time.sleep(10)
+	print(key)
 
 def get():
 	command = "python3 hcaptcha.py"
