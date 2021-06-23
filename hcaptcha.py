@@ -64,17 +64,5 @@ def new():
 
 	while True:
 		if key != "":
-			if not key:
-				print("Failed")
-			else:
-				print(key)
-			break
+			return key
 		time.sleep(0.2)
-
-def get():
-	command = "python3 hcaptcha.py"
-	p = subprocess.run(["python3", "hcaptcha.py"], capture_output=True, encoding="utf-8")
-	print(p.stdout)
-
-if __name__ == "__main__":
-	new()
