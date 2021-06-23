@@ -68,6 +68,8 @@ def create():
 			newUser = DataBase(user, 0, 0)
 			newUser.GoToDB()
 			print(f"Creating {user}, \033[32mSuccess\033[0m - {DataBase.Count()}")
+		else:
+			raise Exception("failed to get token")
 	except:
 		print(response.text)
 		print(f"Creating {user}, \033[31mFailed\033[0m - {DataBase.Count()}")
