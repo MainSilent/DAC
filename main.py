@@ -9,6 +9,7 @@ print("2- Refresh h_captcha cookie")
 choice = int(input("Choose by number: "))
 
 if choice == 1:
+	r = int(input("Enter number of users ( -1 for unlimited ): "))
 	create()
 elif choice == 2:
     get_cookie()
