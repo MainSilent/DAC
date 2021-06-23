@@ -11,9 +11,16 @@ choice = int(input("Choose by number: "))
 if choice == 1:
 	r = int(input("Enter number of users ( -1 for unlimited ): "))
 	tor = input("Enable tor proxy?[y/n]: ").lower()
-	
+
 	while (True if r == -1 else False) or (DataBase.Count() <= r):
 		print()
+
+		if tor == 'y':
+			...
+
 		create()
+
+		if tor == 'y':
+			...
 elif choice == 2:
     get_cookie()
