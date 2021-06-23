@@ -34,7 +34,7 @@ def invite(token):
         }
         response = requests.request("POST", url, headers=headers)
 		if response.status_code == 200:
-			print("Joined!")
+			print("Joined")
 			return True
 		else:
 			print("Failed to Join")
