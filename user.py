@@ -74,7 +74,6 @@ def create():
 		response = requests.request("POST", register_url, headers=headers, data=payload)
 		#is_valid(json.loads(response.text)["token"])
 		if json.loads(response.text)["token"]:
-			print("Token found")
 			newUser = DataBase(user, 0, 0)
 			newUser.GoToDB()
 			print(f"Creating {user}, \033[32mSuccess\033[0m - {DataBase.Count()}")
