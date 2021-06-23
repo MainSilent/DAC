@@ -62,8 +62,14 @@ def new():
 			driver.switch_to.default_content()
 			time.sleep(0.2)
 
-	time.sleep(10)
-	print(key)
+	while True:
+		if key != "":
+			if not key:
+				print("Failed")
+			else:
+				print(key)
+			break
+		time.sleep(0.2)
 
 def get():
 	command = "python3 hcaptcha.py"
