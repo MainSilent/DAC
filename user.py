@@ -22,7 +22,7 @@ def is_valid(token):
 		print("Busted!")
 		return False
 
-def invite(token):
+def join(token):
     try:
         url = "https://discord.com/api/v8/invites/" + invite
         headers = {
