@@ -65,7 +65,9 @@ def new():
 	time.sleep(60)
 
 def get():
-	...
+	command = "python3 hcaptcha.py"
+	p = subprocess.run(["python3", "hcaptcha.py"], capture_output=True, encoding="utf-8")
+	print(p.stdout)
 
 if __name__ == "__main__":
 	new()
