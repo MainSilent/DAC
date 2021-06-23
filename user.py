@@ -27,9 +27,9 @@ def is_valid(token):
 def create():
 	user = generate_username(1)[0]
 	payload = json.dumps({
+		"username": user,
 		"email": f"{user}@gmail.com",
 		"password": password_gen(),
-		"username": user,
 		"date_of_birth": "1998-05-14",
 		"consent": True,
 		"invite": None,
