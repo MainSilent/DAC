@@ -62,7 +62,9 @@ def create():
 	})
 	response = requests.request("POST", register_url, headers=headers, data=payload)
 	try:
-		is_valid(json.loads(response.text)["token"])
+		#is_valid(json.loads(response.text)["token"])
+		if json.loads(response.text)["token"]:
+			print(f"Creating {user} "+"\033[32m"+"Success"+"\033[0m")
 	except:
 		print(response.text)
-		print("Failed")
+		print(f"Creating {user} "+"\033[31m"+"Failed"+"\033[0m")
