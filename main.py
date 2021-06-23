@@ -10,6 +10,8 @@ choice = int(input("Choose by number: "))
 
 if choice == 1:
 	r = int(input("Enter number of users ( -1 for unlimited ): "))
-	create()
+	while (True if r == -1) or (DataBase.Count() <= r):
+		print()
+		create()
 elif choice == 2:
     get_cookie()
