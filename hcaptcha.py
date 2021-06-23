@@ -3,6 +3,7 @@ import time
 import json
 import gzip
 import signal
+import subprocess
 from selenium.webdriver.chrome.options import Options
 from seleniumwire.undetected_chromedriver import Chrome
 
@@ -65,3 +66,6 @@ def new():
 
 def get():
 	...
+
+if __name__ == "__main__":
+	new()
