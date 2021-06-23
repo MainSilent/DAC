@@ -33,13 +33,13 @@ def request_interceptor(request):
 
 def response_interceptor(request, response):
 	if "https://hcaptcha.com/getcaptcha" in request.url:
+		global key
 		body = gzip.decompress(response.body).decode('utf-8')
 		data = json.loads(body)
 		try:
 			if data["bypass-message"]:
 				key = False
 		except:
-			global key
 			key = data['generated_pass_UUID']
 		driver.close()
 
