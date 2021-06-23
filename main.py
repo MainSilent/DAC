@@ -18,7 +18,7 @@ if choice == 1:
 
 		if tor == 'y':
 			if os.system("") != 0:
-				print("Failed to start tor ip")
+				print("Failed to start tor")
 			else:
 				print("Tor Started")
 
@@ -26,7 +26,7 @@ if choice == 1:
 
 		if tor == 'y':
 			if os.system("") != 0:
-				print("Failed to stop tor ip")
+				print("Failed to stop tor")
 			else:
 				print("Tor Stopped")
 elif choice == 2:
