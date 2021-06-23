@@ -24,7 +24,6 @@ def is_valid(token):
 
 def invite(token):
     try:
-        global guild_id
         url = "https://discord.com/api/v8/invites/" + invite
         headers = {
             'Cookie': '__cfduid=db07e6c454c1cb90e3b903a6500527f391617469496',
