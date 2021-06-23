@@ -66,7 +66,7 @@ def create():
 		if json.loads(response.text)["token"]:
 			print(f"Creating {user}, "+"\033[32m"+"Success"+"\033[0m")
 			newUser = DataBase(user, 0, 0)
-        	newUser.GoToDB()
+			newUser.GoToDB()
 	except:
 		print(response.text)
 		print(f"Creating {user}, "+"\033[31m"+"Failed"+"\033[0m")
