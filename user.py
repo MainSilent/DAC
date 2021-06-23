@@ -23,7 +23,21 @@ def is_valid(token):
 		return False
 
 def invite(token):
-	...
+    try:
+        global guild_id
+        url = "https://discord.com/api/v8/invites/" + invite
+        headers = {
+            'Cookie': '__cfduid=db07e6c454c1cb90e3b903a6500527f391617469496',
+            'authorization': token,
+            'x-super-properties': 'eyJvcyI6IkxpbnV4IiwiYnJvd3NlciI6IkNocm9tZSIsImRldmljZSI6IiIsInN5c3RlbV9sb2NhbGUiOiJlbi1VUyIsImJyb3dzZXJfdXNlcl9hZ2VudCI6Ik1vemlsbGEvNS4wIChYMTE7IExpbnV4IHg4Nl82NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzg5LjAuNDM4OS45MCBTYWZhcmkvNTM3LjM2IiwiYnJvd3Nlcl92ZXJzaW9uIjoiODkuMC40Mzg5LjkwIiwib3NfdmVyc2lvbiI6IiIsInJlZmVycmVyIjoiaHR0cHM6Ly9kaXNjb3JkLmNvbS8iLCJyZWZlcnJpbmdfZG9tYWluIjoiZGlzY29yZC5jb20iLCJyZWZlcnJlcl9jdXJyZW50IjoiIiwicmVmZXJyaW5nX2RvbWFpbl9jdXJyZW50IjoiIiwicmVsZWFzZV9jaGFubmVsIjoic3RhYmxlIiwiY2xpZW50X2J1aWxkX251bWJlciI6ODEzMjksImNsaWVudF9ldmVudF9zb3VyY2UiOm51bGx9',
+            'Content-Type': 'application/json'
+        }
+        response = requests.request("POST", url, headers=headers)
+        guild_id = json.loads(response.text)['guild']['id']
+        return True
+    except:
+        print("\033[31m"+"Failed to join the guild"+"\033[0m")
+        return False
 
 def create():
 	headers = {
