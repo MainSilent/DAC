@@ -1,4 +1,5 @@
 import json
+import string
 import requests
 from random_username.generate import generate_username
 
@@ -10,6 +11,9 @@ headers = {
 
 register_url = "https://discord.com/api/v9/auth/register"
 settings_url = "https://discord.com/api/v9/users/@me/settings"
+
+def password_gen(length=8, chars= string.ascii_letters + string.digits + string.punctuation):
+        return ''.join(random.choice(chars) for _ in range(length))  
 
 def is_valid(token):
 	response = requests.request("GET", settings_url, headers={'authorization': token})
