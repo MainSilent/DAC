@@ -60,7 +60,7 @@ def create():
 		"consent": True,
 		"invite": invite if invite else None,
 		"gift_code_sku_id": None,
-		"captcha_key": ""
+		"captcha_key": hcaptcha.get()
 	})
 	response = requests.request("POST", register_url, headers=headers, data=payload)
 	try:
