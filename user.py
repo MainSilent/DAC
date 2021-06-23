@@ -25,9 +25,15 @@ def is_valid(token):
 		return False
 
 def create():
+	user = generate_username(1)[0]
 	payload = json.dumps({
+		"email": f"{user}@gmail.com",
+		"password": password_gen(),
+		"username": user,
+		"date_of_birth": "1998-05-14",
 		"consent": True,
-		"username": generate_username(1)[0],
+		"invite": None,
+		"gift_code_sku_id": None,
 		"captcha_key": ""
 	})
 	response = requests.request("POST", register_url, headers=headers, data=payload)
