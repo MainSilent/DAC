@@ -3,6 +3,7 @@ import json
 import string
 import random
 import requests
+from database import DataBase
 from dotenv import load_dotenv; load_dotenv()
 from random_username.generate import generate_username
 
@@ -64,9 +65,9 @@ def create():
 	try:
 		#is_valid(json.loads(response.text)["token"])
 		if json.loads(response.text)["token"]:
-			print(f"Creating {user}, "+"\033[32m"+"Success"+"\033[0m")
+			print(f"Creating {user}, \033[32mSuccess\033[0m - {DataBase.Count()}")
 			newUser = DataBase(user, 0, 0)
 			newUser.GoToDB()
 	except:
 		print(response.text)
-		print(f"Creating {user}, "+"\033[31m"+"Failed"+"\033[0m")
+		print(f"Creating {user}, \033[31mFailed\033[0m - {DataBase.Count()}")
