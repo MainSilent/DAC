@@ -50,18 +50,22 @@ def new():
 	driver = Chrome(executable_path="./chromedriver", options=options)
 	driver.request_interceptor = request_interceptor
 	driver.response_interceptor = response_interceptor
+	print("Openning page...")
 	driver.get(f'file://{os.getcwd()}/hcaptcha.html')
 
+	print("Waiting for checkbox...")
 	while True:
 		try:
 			driver.switch_to.frame(0)
 			driver.find_element_by_id("checkbox").click()
+			print("Checkbox clicked")
 			break
 		except Exception as e:
 			#print(e)
 			driver.switch_to.default_content()
 			time.sleep(0.2)
 
+	print("Waiting for key...")
 	while True:
 		if key != "":
 			return key
