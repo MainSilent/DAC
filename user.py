@@ -48,6 +48,7 @@ def create():
 	try:
 		response = None
 		user = generate_username(1)[0]
+		print("Getting new key...")
 		captcha_key = hcaptcha.new()
 		if not captcha_key:
 			raise Exception("Failed to get captcha key")
@@ -68,9 +69,11 @@ def create():
 			"gift_code_sku_id": None,
 			"captcha_key": captcha_key
 		})
+		print("Sending register...")
 		response = requests.request("POST", register_url, headers=headers, data=payload)
 		#is_valid(json.loads(response.text)["token"])
 		if json.loads(response.text)["token"]:
+			print("Token found")
 			newUser = DataBase(user, 0, 0)
 			newUser.GoToDB()
 			print(f"Creating {user}, \033[32mSuccess\033[0m - {DataBase.Count()}")
