@@ -2,6 +2,7 @@
 FROM ubuntu:20.04
 RUN apt-get update
 RUN apt-get install -y git tor curl python3 make python3-pip wget
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 
 # Kalitorify
 RUN git clone https://github.com/brainfucksec/kalitorify.git
