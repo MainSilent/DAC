@@ -11,4 +11,4 @@ RUN cd kalitorify \
 
 # Program
 COPY . .
-python3 main.py
+RUN python3 main.py
