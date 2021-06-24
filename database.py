@@ -1,4 +1,3 @@
-import pycurl
 import sqlite3
 
 conn = sqlite3.connect('Data.db')
