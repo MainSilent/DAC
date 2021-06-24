@@ -8,7 +8,10 @@ print(f"{DataBase.Count()} Users\n")
 print("1- Create users")
 print("2- Refresh h_captcha cookie")
 
-choice = int(input("Choose by number: ")) if not sys.argv[2] else int(sys.argv[2])
+try:
+	choice = int(sys.argv[1])
+except:
+	choice = int(input("Choose by number: "))
 
 if choice == 1:
 	#r = int(input("Enter number of users ( -1 for unlimited ): "))
