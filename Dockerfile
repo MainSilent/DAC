@@ -1,7 +1,7 @@
 # Image
 FROM ubuntu:20.04
 RUN apt-get update
-RUN apt-get install -y git tor curl
+RUN apt-get install -y git tor curl python3
 
 # Kalitorify
 RUN git clone https://github.com/brainfucksec/kalitorify.git
