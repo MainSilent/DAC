@@ -10,8 +10,9 @@ print("2- Refresh h_captcha cookie")
 choice = int(input("Choose by number: "))
 
 if choice == 1:
-	r = int(input("Enter number of users ( -1 for unlimited ): "))
-	tor = input("Enable tor proxy?[y/n]: ").lower()
+	#r = int(input("Enter number of users ( -1 for unlimited ): "))
+	#tor = input("Enable tor proxy?[y/n]: ").lower()
+	tor = 'y'; r = -1
 
 	if tor == 'y':
 		if os.system("kalitorify -t") != 0:
