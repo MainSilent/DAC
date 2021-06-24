@@ -52,7 +52,7 @@ def create(tor=False):
 		captcha_key = hcaptcha.new()
 		if not captcha_key:
 			if tor:
-				if os.system("kalitorify -c") != 0:
+				if os.system("kalitorify -r") != 0:
 					print("Failed to stop tor")
 				else:
 					print("Tor Stopped")
