@@ -8,8 +8,8 @@ RUN git clone https://github.com/brainfucksec/kalitorify.git
 RUN cd kalitorify && make install && cd .. && rm -rf kalitorify
 
 # Requirements
+COPY . .
 RUN pip3 install -r requirements.txt
 
 # Run 
-COPY . .
 RUN python3 main.py
