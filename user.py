@@ -44,13 +44,18 @@ def join(token):
         print("\033[31m"+"Failed to join the guild"+"\033[0m")
         return False
 
-def create():
+def create(tor=False):
 	try:
 		response = None
 		user = generate_username(1)[0]
 		print("Getting new key...")
 		captcha_key = hcaptcha.new()
 		if not captcha_key:
+			if tor:
+				if os.system("kalitorify -c") != 0:
+					print("Failed to stop tor")
+				else:
+					print("Tor Stopped")
 			raise Exception("Failed to get captcha key")
 		print("\033[33mSuccessfully received captcha key\033[0m")
 
