@@ -5,9 +5,7 @@ RUN apt-get install -y git tor curl
 
 # Kalitorify
 RUN git clone https://github.com/brainfucksec/kalitorify.git
-RUN cd kalitorify \
-	make install \
-	cd / && rm -rf kalitorify
+RUN cd kalitorify && make install && cd .. && rm -rf kalitorify
 
 # Program
 COPY . .
