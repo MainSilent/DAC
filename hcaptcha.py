@@ -40,7 +40,6 @@ def response_interceptor(request, response):
 				key = False
 		except:
 			key = data['generated_pass_UUID']
-		driver.close()
 
 def new():
 	global driver
@@ -67,5 +66,6 @@ def new():
 	print("Waiting for key...")
 	while True:
 		if key != "":
+			driver.quit()
 			return key
 		time.sleep(0.2)
