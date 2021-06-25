@@ -9,7 +9,7 @@ tor = input("Enable tor proxy?[y/n]: ").lower()
 
 while (True if r == -1 else False) or (DataBase.Count() <= r):
 	print()
-	create(True if tor == 'y' else False)
+	create()
 
 	if tor == 'y':
 		os.system("kalitorify -r")

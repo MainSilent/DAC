@@ -44,7 +44,7 @@ def join(token):
         print("\033[31m"+"Failed to join the guild"+"\033[0m")
         return False
 
-def create(tor=False):
+def create():
 	try:
 		response = None
 		user = generate_username(1)[0]
