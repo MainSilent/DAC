@@ -67,5 +67,6 @@ def new():
 	print("Waiting for key...")
 	while True:
 		if key != "":
+			driver.quit()
 			return key
 		time.sleep(0.2)
