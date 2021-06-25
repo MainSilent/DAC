@@ -14,6 +14,3 @@ wget -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/googl
 
 # Requirements
 pip3 install -r requirements.txt
-
-# Run
-python3 main.py 1
