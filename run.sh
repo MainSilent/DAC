@@ -1,7 +1,6 @@
 # Prerequisite
 apt-get update
 apt-get install -y git tor curl python3 make python3-pip wget
-DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 
 # Kalitorify
 git clone https://github.com/brainfucksec/kalitorify.git
