@@ -16,7 +16,7 @@ def get_cookie():
 			break
 		time.sleep(0.4)
 	time.sleep(2)
-	driver.find_element_by_xpath('//*[@id="root"]/div/div[3]/div/div[3]/button').click()
+	#driver.find_element_by_xpath('//*[@id="root"]/div/div[3]/div/div[3]/button').click()
 
 	while True:
 		try:
