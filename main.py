@@ -12,7 +12,4 @@ while (True if r == -1 else False) or (DataBase.Count() <= r):
 	create(True if tor == 'y' else False)
 
 	if tor == 'y':
-		if os.system("kalitorify -r") != 0:
-			print("Failed to stop tor")
-		else:
-			print("Tor Stopped")
+		os.system("kalitorify -r")
