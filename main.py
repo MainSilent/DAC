@@ -15,4 +15,7 @@ while (True if r == -1 else False) or (DataBase.Count() <= r):
 	p.join()
 
 	if tor == 'y':
-		os.system("kalitorify -r")
+		if os.system("kalitorify -r > /dev/null") != 0:
+			print("\033[31mFailed to restart tor\033[0m")
+		else:
+			print("\033[32mTor restarted\033[0m")
