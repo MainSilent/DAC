@@ -3,8 +3,6 @@ from user import create
 from database import DataBase
 
 print(f"{DataBase.Count()} Users\n")
-print("1- Create users")
-print("2- Refresh h_captcha cookie")
 
 r = int(input("Enter number of users ( -1 for unlimited ): "))
 tor = input("Enable tor proxy?[y/n]: ").lower()
