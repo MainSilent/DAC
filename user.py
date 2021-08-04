@@ -21,7 +21,7 @@ def is_valid(token):
 		print(token)
 		return True
 	else:
-		print("Busted!")
+		print("Token is banned")
 		return False
 
 def join(token):
@@ -72,7 +72,7 @@ def create():
 		})
 		print("Sending register...")
 		response = requests.request("POST", register_url, headers=headers, data=payload)
-		#is_valid(json.loads(response.text)["token"])
+		is_valid(json.loads(response.text)["token"])
 		if json.loads(response.text)["token"]:
 			newUser = DataBase(user, 0, 0)
 			newUser.GoToDB()
