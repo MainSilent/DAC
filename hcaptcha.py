@@ -45,7 +45,7 @@ def response_interceptor(request, response):
 def new():
 	global driver
 	options = Options()
-	#options.add_argument("--headless")
+	options.add_argument("--headless")
 	options.add_argument("--no-sandbox")
 	driver = Chrome(executable_path="/bin/chromedriver", options=options)
 	driver.request_interceptor = request_interceptor
