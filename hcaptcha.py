@@ -45,13 +45,13 @@ def response_interceptor(request, response):
 def new():
 	global driver
 	options = Options()
-	options.add_argument("--headless")
+	#options.add_argument("--headless")
 	options.add_argument("--no-sandbox")
-	driver = Chrome(executable_path="./chromedriver", options=options)
+	driver = Chrome(executable_path="/bin/chromedriver", options=options)
 	driver.request_interceptor = request_interceptor
 	driver.response_interceptor = response_interceptor
 	print("Openning page...")
-	driver.get(f'file://{os.getcwd()}/hcaptcha.html')
+	driver.get(f'file://{os.getcwd()}/client/hcaptcha.html')
 
 	print("Waiting for checkbox...")
 	while True:
