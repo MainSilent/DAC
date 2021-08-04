@@ -75,7 +75,7 @@ def create():
 		token = json.loads(response.text)["token"]
 		is_valid(token)
 		if token:
-			newUser = DataBase(user, 0, 0)
+			newUser = DataBase(token, user)
 			newUser.GoToDB()
 			print(f"Creating {user}, \033[32mSuccess\033[0m - {DataBase.Count()}")
 		else:

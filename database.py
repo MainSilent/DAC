@@ -4,10 +4,9 @@ conn = sqlite3.connect('Data.db')
 c = conn.cursor()
 
 class DataBase:
-    def __init__(self,username,uID,send):
+    def __init__(self, token, username):
+        self.token = token
         self.username = username
-        self.uID = uID
-        self.send = send
     
     @classmethod
     def GetFromDB(self):
@@ -17,7 +16,7 @@ class DataBase:
 
     def GoToDB(self):
         with conn:
-            c.execute(f"INSERT INTO 'main'.'Users'('ID','username') VALUES (NULL,?)",(self.username,))
+            c.execute(f"INSERT INTO 'main'.'Users'('id','token','username') VALUES (NULL, ?, ?)",(self.token, self.username))
     
     @classmethod
     def Count(self):
