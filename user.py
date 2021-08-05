@@ -62,7 +62,7 @@ def create():
 		}
 		payload = json.dumps({
 			"username": user,
-			"email": f"{user}@gmail.com",
+			"email": f"{user}{password_gen(10, string.digits)}@gmail.com",
 			"password": password_gen(),
 			"date_of_birth": "1998-05-14",
 			"consent": True,
